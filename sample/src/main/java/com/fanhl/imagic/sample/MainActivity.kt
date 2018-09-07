@@ -10,7 +10,6 @@ import java.nio.ByteBuffer
 import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
-    private val TAG = MainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +17,25 @@ class MainActivity : AppCompatActivity() {
 
         val drawable = getDrawable(R.drawable.img_dog)
         val bitmapDrawable = drawable as? BitmapDrawable ?: return
-        val bitmap = bitmapDrawable.bitmap
+        val bitmap = bitmapDrawable.bitmap ?: return
+
+        val destBitmap: Bitmap = filter2(bitmap)
+
+        img_2.setImageBitmap(destBitmap)
+
+        Log.d(TAG, "onCreate: ")
+    }
+
+    private fun filter2(bitmap: Bitmap): Bitmap {
+        val data = bitmap.run { IntArray(width * height) }
+        bitmap.apply {
+            getPixels(data, 0, width, 0, 0, width, height)
+        }
+
+        TODO("")
+    }
+
+    private fun filter(bitmap: Bitmap): Bitmap {
         val byteBuffer = ByteBuffer.allocate(bitmap.byteCount).also {
             bitmap.copyPixelsToBuffer(it)
         }
@@ -30,8 +47,10 @@ class MainActivity : AppCompatActivity() {
 
         val destBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
         destBitmap.copyPixelsFromBuffer(destByteBuffer)
-        img_2.setImageBitmap(destBitmap)
+        return destBitmap
+    }
 
-        Log.d(TAG, "onCreate: ")
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
     }
 }
