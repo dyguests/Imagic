@@ -1,4 +1,4 @@
-package com.fanhl.imagic
+package com.fanhl.imagic.sample
 
 import org.junit.Test
 

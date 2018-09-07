@@ -1,3 +1,0 @@
-# Imagic
-
-Image magic processor.
